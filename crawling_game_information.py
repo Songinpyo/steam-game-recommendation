@@ -5,7 +5,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import csv
 import time
 
-driver = webdriver.Chrome(executable_path=r"C:/Python/nlp/steam-game-recommendation/chromedriver.exe")
+driver = webdriver.Chrome(executable_path=r"C:/Users/rihot/Desktop/Deep_learning/steam-game-recommendation/chromedriver.exe")
 URL = "https://store.steampowered.com/search/?filter=topsellers"
 driver.get(URL)
 time.sleep(1)
@@ -18,11 +18,11 @@ f = open("./steam_games_information.csv", "w", newline='', encoding="utf-8-sig")
 wtr = csv.writer(f)
 wtr.writerow(['game', 'rate', 'genre', 'review1','tag1', 'tag2', 'tag3', 'tag4', 'tag5'])
 
-# for i in range(50):
-#     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") # scroll down
-#     time.sleep(0.5)
+for i in range(50):
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") # scroll down
+    time.sleep(0.5)
 
-for i in range(1, 2):
+for i in range(1, 500):
     try:
         game = driver.find_element(By.XPATH, f'//*[@id="search_resultsRows"]/a[{i}]')
         link = game.get_attribute("href")
