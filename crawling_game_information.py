@@ -55,7 +55,9 @@ for i in range(1, 501):
         driver.switch_to.window(driver.window_handles[-1])  # 다시 이전 창(탭)으로 이동
         time.sleep(2)
     except:
-        pass
+        driver.close()  # 링크 이동 후 탭 닫기
+        driver.switch_to.window(driver.window_handles[-1])  # 다시 이전 창(탭)으로 이동
+        time.sleep(2)
 
 time.sleep(1)
 
