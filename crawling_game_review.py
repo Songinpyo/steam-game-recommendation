@@ -41,22 +41,30 @@ review_df = pd.DataFrame() # 모든 게임들의 리뷰를 담을 DF
 
 for i in range(len(data['appid'])):
     df_reviews = []
+    df_voted_up = []
 
+    # 100개의 리뷰 수집
     reviews = get_n_reviews(appid[i], n=100)
-    
-    # 리뷰가 100개가 되지 않는 경우를 방지하기 위해 try 사용
     for j in range(100):
         try:
             df_reviews.append(reviews[j]['review'])
+            df_voted_up.append(reviews[j]['voted_up'])
         except:
             pass
 
-    df = pd.DataFrame({'reviews': df_reviews})
+    df = pd.DataFrame({'reviews': df_reviews, 'voted_up':df_voted_up})
     
-    # 리뷰 수에 맞추어 게임 이름과 id를 넣어준다.
+    # 리뷰 수에 맞추어 추천 여부와 게임 이름과 id를 넣어준다.
     df['game'] = data['game'][i]
     df['appid'] = data['appid'][i]
 
     review_df = pd.concat([review_df, df], ignore_index=True)
+
+# voted up column one hot encoding, Ture=1, False=0
+for i in range(len(review_df)):
+    if review_df['voted_up'][i] == 'True':
+        review_df['voted_up'][i] = 1
+    else:
+        review_df['voted_up'][i] = 0
 
 review_df.to_csv('steam_games_review.csv', index=False, encoding="utf-8-sig")
